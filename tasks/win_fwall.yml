@@ -1,0 +1,11 @@
+--- # Windows Firewall Rules
+
+-   name: Add Windows Firewall Rule {{ node_js_firewall_rule_protocol }}-{{ node_js_firewall_rule_port }} in
+    win_firewall_rule:
+        name: "{{ node_js_firewall_rule_name }}"
+        localport: "{{ node_js_firewall_rule_port }}"
+        action: allow
+        direction: in
+        protocol: "{{ node_js_firewall_rule_protocol }}"
+        state: present
+        enabled: yes

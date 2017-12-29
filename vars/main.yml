@@ -1,0 +1,24 @@
+--- # vars file for win_iis_nodejs_webserver
+
+# What git to install ans where to put the download file
+git_package: Git-2.14.1-64-bit.exe
+git_package_url: http://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/{{ git_package }}
+git_package_location: C:\Users\ansible\{{ git_package }}
+
+# What NodeJS to install ans where to put the download file
+node_js_pacakge: node-v6.11.3-x64.msi
+node_js_pacakge_url: http://nodejs.org/dist/v6.11.3/{{ node_js_pacakge }}
+node_js_pacakge_location: C:\Users\ansible\{{ node_js_pacakge }}
+
+# What IIS Node to install ans where to put the download file
+iis_node_package: iisnode-full-v0.2.21-x64.msi
+iis_node_package_url: http://github.com/tjanczuk/iisnode/releases/download/v0.2.21/{{ iis_node_package }}
+iis_node_package_location: C:\Users\ansible\{{ iis_node_package }}
+
+# Windows 2012 firewall configuration for the NodeJS App
+node_js_firewall_rule_name: NodeJS App Port
+node_js_firewall_rule_protocol: tcp
+node_js_firewall_rule_port: 8080
+
+# NodeJS app info
+node_js_app_directory: C:\opt\devops

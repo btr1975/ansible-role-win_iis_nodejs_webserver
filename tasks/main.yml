@@ -1,0 +1,118 @@
+--- # tasks file for win_iis_nodejs_webserver
+
+-   name: Check if Git is already downloaded
+    win_shell: dir {{ git_package_location }}
+    register: git_found
+    changed_when: git_found.rc >= 1
+    ignore_errors: true
+
+-   name: Check if NodeJS is already downloaded
+    win_shell: dir {{ node_js_pacakge_location }}
+    register: node_js_found
+    changed_when: node_js_found.rc >= 1
+    ignore_errors: true
+
+-   name: Check if IIS Node is already downloaded
+    win_shell: dir {{ iis_node_package_location }}
+    register: iis_node_found
+    changed_when: iis_node_found.rc >= 1
+    ignore_errors: true
+
+-   name: Download Git 2.14.1
+    win_get_url:
+        url: "{{ git_package_url }}"
+        dest: "{{ git_package_location }}"
+    when: git_found.rc >= 1
+
+-   name: Download NodeJS 6.11.3
+    win_get_url:
+        url: "{{ node_js_pacakge_url }}"
+        dest: "{{ node_js_pacakge_location }}"
+    when: node_js_found.rc >= 1
+
+-   name: Download NodeJS 6.11.3
+    win_get_url:
+        url: "{{ iis_node_package_url }}"
+        dest: "{{ iis_node_package_location }}"
+    when: iis_node_found.rc >= 1
+
+-   name: Install IIS (Web-Server only) This can take a few minutes
+    win_feature:
+        name: Web-Server
+        state: present
+
+-   name: Install IIS (Web-Server Mgmt Tools) This can take a few minutes
+    win_feature:
+        name: Web-Mgmt-Tools
+        state: present
+
+-   name: Install .NET 3.5 (.NET 3.5 Framework) This can take a few minutes
+    win_feature:
+        name: NET-Framework-Features
+        state: present
+
+-   name: Install .NET 3.5 (.NET 3.5 HTTP) This can take a few minutes
+    win_feature:
+        name: NET-HTTP-Activation
+        state: present
+
+-   name: Install .NET 3.5 (.NET 3.5 Non-HTTP) This can take a few minutes
+    win_feature:
+        name: NET-Non-HTTP-Activ
+        state: present
+
+-   name: Install .NET 4.5 (.NET 4.5 Framework) This can take a few minutes
+    win_feature:
+        name: NET-Framework-45-Features
+        state: present
+
+-   name: Install Security (Web-Basic-Auth) This can take a few minutes
+    win_feature:
+        name: Web-Basic-Auth
+        state: present
+
+-   name: Install Security (Web-Windows-Auth) This can take a few minutes
+    win_feature:
+        name: Web-Windows-Auth
+        state: present
+
+-   name: Create directory structure
+    win_file:
+        path: "{{ node_js_app_directory }}"
+        state: directory
+
+-   name: Install Git
+    win_package:
+        path: "{{ git_package_location }}"
+        arguments: /SILENT /NOCANCEL
+        product_id: Git_is1
+        state: present
+
+-   name: Install NodeJS
+    win_package:
+        path: "{{ node_js_pacakge_location }}"
+        arguments: /quiet
+        state: present
+
+-   name: Install IIS Node
+    win_package:
+        path: "{{ iis_node_package_location }}"
+        arguments: /quiet
+        state: present
+
+-   import_tasks: win_fwall.yml
+
+-   name: Create hello_world directory
+    win_file:
+        path: '{{ node_js_app_directory }}\hello_world'
+        state: directory
+
+-   name: Install Hello World NodeJS App
+    win_template:
+        src: hello_server.jinja2
+        dest: '{{ node_js_app_directory }}\hello_world\hello_server.js'
+
+-   name: Add Startup batch file for Hello World NodeJS App
+    win_template:
+        src: start_node_app.jinja2
+        dest: '{{ node_js_app_directory }}\hello_world\start_node_app.bat' 

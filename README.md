@@ -23,12 +23,12 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-'''yaml
+```yaml
 -   hosts: windows_server
     name: Install NodeJS 6.11.3, Git 2.14.1, IIS Node 0.2.21 on Windows 2012
     roles:
     -   win_iis_nodejs_webserver
-'''
+```
     
 License
 -------

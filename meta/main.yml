@@ -33,9 +33,9 @@ galaxy_info:
   # platforms is a list of platforms, and each platform has a name and a list of versions.
   #
   platforms:
-  - name: Windows Server 2012 R2
+  - name: Windows
     versions:
-    - all
+    - 2012R2
 
   galaxy_tags: 
   - Windows 2012
